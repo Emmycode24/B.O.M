@@ -1,0 +1,95 @@
+[
+  {
+    "id": "1",
+    "item_number": "1000000-XX-XX",
+    "item_name": "DRONE MANUFACTURE ROB",
+    "status": "DEVELOPMENT",
+    "quantity": 1.0,
+    "creator": "EC",
+    "children": []
+  },
+  {
+    "id": "2",
+    "item_number": "100002X-XX-XX",
+    "item_name": "PACKAGING",
+    "status": "RELEASED",
+    "quantity": 1.0,
+    "creator": "EC",
+    "children": []
+  },
+  {
+    "id": "3",
+    "item_number": "1000022S-XX-XX",
+    "item_name": "EXTRA BITS AND PIECES",
+    "status": "DEVELOPMENT",
+    "quantity": 1.0,
+    "creator": "EC",
+    "children": []
+  },
+  {
+    "id": "4",
+    "item_number": "1000146-AC-00",
+    "item_name": "DRONE ASSEMBLY",
+    "status": "DEVELOPMENT",
+    "quantity": 1.0,
+    "creator": "EC",
+    "children": [
+      {
+        "id": "4-1",
+        "item_number": "EP-10006-AC-00",
+        "item_name": "PCB",
+        "status": "DEVELOPMENT",
+        "quantity": 1.0,
+        "creator": "EC",
+        "children": [
+          {
+            "id": "4-1-1",
+            "item_number": "AM-10339-AC-01",
+            "item_name": "3D_V2",
+            "status": "RELEASED",
+            "quantity": 2.0,
+            "creator": "EC",
+            "children": []
+          },
+          {
+            "id": "4-1-2",
+            "item_number": "AM-1675-XX-XX",
+            "item_name": "3D_V2-CC-0907",
+            "status": "DEVELOPMENT",
+            "quantity": 2.0,
+            "creator": "EC",
+            "children": [
+              {
+                "id": "4-1-2-1",
+                "item_number": "20CPULL-CC-0907",
+                "item_name": "20CPULL-CC-0907",
+                "status": "DEVELOPMENT",
+                "quantity": 1.0,
+                "creator": "EC",
+                "children": []
+              },
+              {
+                "id": "4-1-2-2",
+                "item_number": "BASE_ATTACH-CC-0907",
+                "item_name": "BASE_ATTACH-CC-0907",
+                "status": "DEVELOPMENT",
+                "quantity": 1.0,
+                "creator": "EC",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "5",
+        "item_number": "1000176-AA-00",
+        "item_name": "VSW",
+        "status": "DEVELOPMENT",
+        "quantity": 1.0,
+        "creator": "EC",
+        "children": []
+      }
+    ]
+  }
+]
