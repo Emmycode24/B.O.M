@@ -129,8 +129,11 @@ function SortableBomItemRow({ id, item, onUpdate, onDelete }) {
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
+    transition: transition || 'box-shadow 0.2s, transform 0.2s',
+    opacity: isDragging ? 0.7 : 1,
+    cursor: isDragging ? 'grabbing' : 'grab',
+    boxShadow: isDragging ? '0 4px 16px rgba(0,0,0,0.15)' : 'none',
+    zIndex: isDragging ? 1000 : 'auto',
   };
 
   return (
