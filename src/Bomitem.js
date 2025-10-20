@@ -6,7 +6,10 @@ import {
   Eye,
   ClipboardList,
   Trash2,
+  Move,
 } from "lucide-react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const statusColors = {
   RELEASED: "bg-green-200 text-green-800",
@@ -14,7 +17,8 @@ const statusColors = {
 };
 
 export default function BomItemRow({ item, level = 0, onUpdate, onDelete }) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(true
+ );
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingQty, setIsEditingQty] = useState(false);
   const [name, setName] = useState(item.item_name);
@@ -22,28 +26,63 @@ export default function BomItemRow({ item, level = 0, onUpdate, onDelete }) {
 
   const hasChildren = item.children && item.children.length > 0;
 
+  // dnd-kit sortable hook for drag-and-drop
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    background: isDragging ? "#f3f4f6" : undefined,
+  };
+
   const handleSave = () => {
     onUpdate(item.id, { item_name: name, quantity: qty });
     setIsEditingName(false);
     setIsEditingQty(false);
   };
 
+   const toggleExpand = () => setIsExpanded(!isExpanded);
+
   return (
     <>
-      <div className="flex items-center border-b text-sm">
+      <div
+        ref={setNodeRef}
+        style={style}
+        className="flex items-center border-b text-sm"
+      >
+        {/* Drag Handle */}
+        <div
+          {...attributes}
+          {...listeners}
+          className="w-6 flex items-center justify-center cursor-grab active:cursor-grabbing"
+          style={{ marginLeft: `${level * 20}px` }}
+        >
+          <Move size={16} className="text-gray-400" />
+        </div>
+
         {/* Expand/Collapse Toggle */}
         <div
-          className="w-6 cursor-pointer flex items-center justify-center"
-          style={{ marginLeft: `${level * 20}px` }}
-          onClick={() => hasChildren && setIsExpanded(!isExpanded)}
-        >
-          {hasChildren &&
-            (isExpanded ? (
-              <ChevronDown size={16} className="text-gray-600" />
-            ) : (
-              <ChevronRight size={16} className="text-gray-600" />
-            ))}
-        </div>
+  className={`w-6 flex items-center justify-center ${hasChildren ? "cursor-pointer" : "opacity-0"}`}
+  onClick={hasChildren ? toggleExpand : undefined}
+  role="button"
+  aria-label={isExpanded ? "Collapse children" : "Expand children"}
+  tabIndex={hasChildren ? 0 : -1}
+>
+  {hasChildren &&
+    (isExpanded ? (
+      <ChevronDown size={16} className="text-gray-600" />
+    ) : (
+      <ChevronRight size={16} className="text-gray-600" />
+    ))}
+</div>
 
         {/* Item Name (editable) */}
         <div className="py-2 px-2 flex-1">
@@ -119,18 +158,29 @@ export default function BomItemRow({ item, level = 0, onUpdate, onDelete }) {
         </div>
       </div>
 
-      {/* Render children recursively (only if expanded) */}
-      {isExpanded &&
-        hasChildren &&
-        item.children.map((child) => (
-          <BomItemRow
-            key={child.id}
-            item={child}
-            level={level + 1}
-            onUpdate={onUpdate}
-            onDelete={onDelete}
-          />
-        ))}
+          {/* Render children recursively (only if expanded) */}
+      {isExpanded && hasChildren && (
+        <div
+    style={{
+      marginLeft: `${(level + 1) * 20}px`,
+      borderLeft: "2px solid #e5e7eb",
+      background: "#f9fafb",
+      paddingLeft: "8px",
+      transition: "background 0.2s",
+    }}
+    className="py-1"
+  >
+          {item.children.map((child) => (
+            <BomItemRow
+              key={child.id}
+              item={child}
+              level={level + 1}
+              onUpdate={onUpdate}
+              onDelete={onDelete}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 }
